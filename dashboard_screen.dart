@@ -28,13 +28,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TIX ID'),
+        title: Text('TIX ID', style: TextStyle(color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 6, 45, 90),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.search, color: Colors.white),
             onPressed: () {
-              // Aksi untuk pencarian
             },
           ),
         ],
@@ -70,13 +69,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 class DashboardPage extends StatelessWidget {
+  final List<String> bannerImages = [
+    'assets/banner_promo.jpg',
+    'assets/banner_promo2.jpg',
+    'assets/banner_promo3.jpg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // Pencarian dan Lokasi
           Container(
             padding: const EdgeInsets.all(16.0),
             color: Color.fromARGB(255, 6, 45, 90),
@@ -88,13 +92,11 @@ class DashboardPage extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.notifications, color: Colors.white),
                       onPressed: () {
-                        // Aksi untuk notifikasi
                       },
                     ),
                     IconButton(
                       icon: Icon(Icons.person, color: Colors.white),
                       onPressed: () {
-                        // Aksi untuk profil pengguna
                       },
                     ),
                   ],
@@ -129,11 +131,18 @@ class DashboardPage extends StatelessWidget {
           // Banner Promosi
           Container(
             height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/banner_promo.jpg'), // Gambar promo
-                fit: BoxFit.cover,
-              ),
+            child: PageView.builder(
+              itemCount: bannerImages.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(bannerImages[index]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           SizedBox(height: 20),
@@ -163,9 +172,8 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          // TIX VIP
           Container(
-            width: MediaQuery.of(context).size.width, // Menyesuaikan lebar layar
+            width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 6, 45, 90),
@@ -194,7 +202,6 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          // Spotlight
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -213,7 +220,7 @@ class DashboardPage extends StatelessWidget {
                   height: 200,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/spotlight_image.jpg'), // Gambar Spotlight
+                      image: AssetImage('assets/spotlight_image.jpg'), 
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -240,22 +247,48 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          // TIX Now
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'TIX Now',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            height: 150,
-            color: Colors.grey[300],
-            child: Center(
-              child: Text(
-                'Berita TIX Now',
-                style: TextStyle(fontSize: 20),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'TIX Now',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Update terkini dunia hiburan!',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                SizedBox(height: 10),
+                NewsCard(
+                  title: 'Drama Romantis Terbaru "We Live in Time" Dibintangi Andrew Garfield dan Florence Pugh',
+                  views: '19',
+                  timeAgo: '2 jam lalu',
+                  imageUrl: 'assets/we_live_in_time.jpg',
+                ),
+                SizedBox(height: 10),
+                NewsCard(
+                  title: 'Tom Cruise Rilis Trailer "Mission: Impossible 8 The Final Reckoning"',
+                  views: '1.1K',
+                  timeAgo: '3 hari lalu',
+                  imageUrl: 'assets/mission_impossible_8.jpg',
+                ),
+                SizedBox(height: 10),
+                NewsCard(
+                  title: 'Ariana Grande dan Cynthia Erivo Siap Bintangi Film "WICKED"',
+                  views: '792',
+                  timeAgo: '4 hari lalu',
+                  imageUrl: 'assets/wicked.jpg',
+                ),
+                SizedBox(height: 10),
+                NewsCard(
+                  title: 'Sinopsis "Betting With Ghost" Asal Vietnam',
+                  views: '54',
+                  timeAgo: '5 hari lalu',
+                  imageUrl: 'assets/betting_with_ghost.jpg',
+                ),
+              ],
             ),
           ),
         ],
@@ -289,7 +322,7 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 160,
-      child: Card(
+            child: Card(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -330,15 +363,80 @@ class MovieCard extends StatelessWidget {
                   SizedBox(height: 4),
                   ElevatedButton(
                     onPressed: () {
-                      // Aksi untuk beli tiket
                     },
                     child: Text('Beli Tiket'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Color.fromARGB(255, 6, 45, 90),
+                    ),
                   ),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class NewsCard extends StatelessWidget {
+  final String title;
+  final String views;
+  final String timeAgo;
+  final String imageUrl;
+
+  NewsCard({
+    required this.title,
+    required this.views,
+    required this.timeAgo,
+    required this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Row(
+        children: <Widget>[
+          Image.asset(
+            imageUrl,
+            width: 100,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.visibility, size: 14),
+                          SizedBox(width: 4),
+                          Text(views),
+                        ],
+                      ),
+                      Text(timeAgo, style: TextStyle(color: Colors.grey)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
