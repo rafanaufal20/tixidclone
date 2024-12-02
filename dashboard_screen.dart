@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'bioskop_screen.dart';
-import 'tiket_screen.dart';
-import 'tiketku_screen.dart';
+import 'package:ukltixid/bioskop_screen.dart';
+import 'package:ukltixid/tiket_screen.dart';
+import 'package:ukltixid/tiketku_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -29,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('TIX ID'),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: Color.fromARGB(255, 6, 45, 90),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -56,11 +56,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             label: 'Bioskop',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_movies),
+            icon: Icon(Icons.local_activity),
             label: 'Tiket',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.list),
             label: 'Tiketku',
           ),
         ],
@@ -73,142 +73,268 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          // Pencarian dan Lokasi
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            color: Color.fromARGB(255, 6, 45, 90),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.notifications, color: Colors.white),
+                      onPressed: () {
+                        // Aksi untuk notifikasi
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.person, color: Colors.white),
+                      onPressed: () {
+                        // Aksi untuk profil pengguna
+                      },
+                    ),
+                  ],
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Cari di TIX ID',
+                    prefixIcon: Icon(Icons.search),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Lokasi: JAKARTA',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    Icon(Icons.location_on, color: Colors.white),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          // Banner Promosi
+          Container(
+            height: 150,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/banner_promo.jpg'), // Gambar promo
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          // Sedang Tayang
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Sedang Tayang',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: sedangTayangMovies.map((movie) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: MovieCard(movie: movie),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          // TIX VIP
+          Container(
+            width: MediaQuery.of(context).size.width, // Menyesuaikan lebar layar
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 6, 45, 90),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'TIX VIP',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Lebih seru, koin melimpah, dapat hadiah!',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          // Spotlight
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Spotlight',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Berita hiburan terhangat untuk Anda!',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/spotlight_image.jpg'), // Gambar Spotlight
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '10 TIX ID Weekly Box Office FILM TERLARIS DI BIOSKOP INDONESIA 11-17 November 2024',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(Icons.person),
+                    SizedBox(width: 5),
+                    Text('57'),
+                    SizedBox(width: 10),
+                    Icon(Icons.comment),
+                    SizedBox(width: 5),
+                    Text('0'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          // TIX Now
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'TIX Now',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+            height: 150,
+            color: Colors.grey[300],
+            child: Center(
+              child: Text(
+                'Berita TIX Now',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Movie {
+  final String title;
+  final String genre;
+  final String rating;
+  final double score;
+  final String imagePath;
+
+  Movie({
+    required this.title,
+    required this.genre,
+    required this.rating,
+    required this.score,
+    required this.imagePath,
+  });
+}
+
+class MovieCard extends StatelessWidget {
+  final Movie movie;
+
+  MovieCard({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 160,
+      child: Card(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Lokasi dan Pencarian
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Lokasi: JAKARTA',
-                  style: TextStyle(fontSize: 16),
-                ),
-                Icon(Icons.location_on, color: Colors.blue[800]),
-              ],
+            Image.asset(
+              movie.imagePath,
+              width: double.infinity,
+              height: 240,
+              fit: BoxFit.cover,
             ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Cari di TIX ID',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            // Banner Promosi
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/banner_promo.jpg'), // Gambar promo
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            // TIX VIP
-            Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.blue[800],
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'TIX VIP',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Lebih seru, koin melimpah, dapat hadiah!',
+                    movie.title,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Rating: ${movie.rating}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Score: ${movie.score}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Aksi untuk beli tiket
+                    },
+                    child: Text('Beli Tiket'),
+                  ),
                 ],
-              ),
-            ),
-            SizedBox(height: 20),
-            // Sedang Tayang
-            Text(
-              'Sedang Tayang',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            // Daftar Film
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  MovieCard(title: 'Bila Esok Ibu Tiada', rating: 9.2),
-                  SizedBox(width: 10),
-                  MovieCard(title: 'Santet Segoro Pitu', rating: 9.0),
-                  SizedBox(width: 10),
-                  MovieCard(title: 'Gladiator II', rating: 9.5),
-                  SizedBox(width: 10),
-                  MovieCard(title: 'Red One', rating: 9.3),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            // Spotlight
-            Text(
-              'Spotlight',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            // Konten Spotlight
-            Container(
-              height: 150,
-              color: Colors.grey[300],
-              child: Center(
-                child: Text(
-                  'Konten Spotlight',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            // TIX ID Box Office
-            Text(
-              'TIX ID Box Office',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Container(
-              height: 150,
-              color: Colors.grey[300],
-              child: Center(
-                child: Text(
-                  'Konten Box Office',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            // TIX Now
-            Text(
-              'TIX Now',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Container(
-              height: 150,
-              color: Colors.grey[300],
-              child: Center(
-                child: Text(
-                  'Berita TIX Now',
-                  style: TextStyle(fontSize: 20),
-                ),
               ),
             ),
           ],
@@ -218,54 +344,33 @@ class DashboardPage extends StatelessWidget {
   }
 }
 
-class MovieCard extends StatelessWidget {
-  final String title;
-  final double rating;
-
-  MovieCard({required this.title, required this.rating});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        image: DecorationImage(
-          image: AssetImage('assets/movie_placeholder.jpg'), // Gambar placeholder film
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(8.0),
-            color: Colors.black.withOpacity(0.7),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(8.0),
-            color: Colors.black.withOpacity(0.7),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Rating: $rating',
-                  style: TextStyle(color: Colors.white),
-                ),
-                Icon(Icons.star, color: Colors.yellow),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+final List<Movie> sedangTayangMovies = [
+  Movie(
+    title: 'BILA ESOK IBU TIADA',
+    genre: 'Drama, Keluarga',
+    rating: 'R 13+',
+    score: 9.2,
+    imagePath: 'assets/bila_esok_ibu_tiada.jpg',
+  ),
+  Movie(
+    title: 'SANTET SEGORO PITU',
+    genre: 'Horror',
+    rating: 'D 17+',
+    score: 9.0,
+    imagePath: 'assets/santet_segoro_pitu.jpg',
+  ),
+  Movie(
+    title: 'GLADIATOR II',
+    genre: 'Action, Adventure',
+    rating: 'D 17+',
+    score: 9.5,
+    imagePath: 'assets/gladiator_ii.jpg',
+  ),
+  Movie(
+    title: 'RED ONE',
+    genre: 'Action, Adventure',
+    rating: 'R 13+',
+    score: 9.3,
+    imagePath: 'assets/red_one.jpg',
+  ),
+];
